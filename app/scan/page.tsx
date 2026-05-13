@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const columns = [
   "설비ID",
@@ -76,6 +80,77 @@ function getCellClass(cell: string) {
 }
 
 export default function ScanPage() {
+  const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const scanTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const videoElement = videoRef.current;
+
+    async function startCamera() {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setIsCameraReady(false);
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" } },
+          audio: false,
+        });
+
+        if (!isMounted) {
+          stream.getTracks().forEach((track) => track.stop());
+          return;
+        }
+
+        streamRef.current = stream;
+
+        if (videoElement) {
+          videoElement.srcObject = stream;
+          await videoElement.play().catch(() => undefined);
+        }
+
+        setIsCameraReady(true);
+      } catch {
+        setIsCameraReady(false);
+      }
+    }
+
+    startCamera();
+
+    return () => {
+      isMounted = false;
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+
+      if (videoElement) {
+        videoElement.srcObject = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scanTimeoutRef.current) {
+        clearTimeout(scanTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function handleScan() {
+    if (isScanning) return;
+
+    setIsScanning(true);
+    scanTimeoutRef.current = setTimeout(() => {
+      router.push("/analyzing");
+    }, 1500);
+  }
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_15%,rgba(34,211,238,0.16),transparent_28%),linear-gradient(135deg,#050816_0%,#071a2e_58%,#020617_100%)]" />
@@ -99,16 +174,17 @@ export default function ScanPage() {
               현장 Raw Data를 촬영합니다
             </h1>
             <p className="text-sm leading-7 text-slate-300 md:text-base md:leading-8">
-              실제 카메라 연동 전 단계입니다. 상단의 카메라 준비 영역에서
-              촬영 프레임을 확인하고, 아래 Raw Data 표를 스캔 대상으로
-              보여줍니다.
+              모바일에서는 후면 카메라를 우선 사용합니다. 권한이 거부되거나
+              카메라가 지원되지 않는 환경에서는 준비 화면을 그대로 표시합니다.
             </p>
-            <Link
-              href="/analyzing"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-300 px-7 py-3 text-base font-bold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.32)] transition hover:bg-cyan-200 sm:w-auto sm:py-4"
+            <button
+              type="button"
+              onClick={handleScan}
+              disabled={isScanning}
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-300 px-7 py-3 text-base font-bold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.32)] transition hover:bg-cyan-200 disabled:cursor-wait disabled:bg-cyan-200 sm:w-auto sm:py-4"
             >
-              촬영한 데이터 분석하기
-            </Link>
+              {isScanning ? "Raw Data 분석 준비 중..." : "Raw Data 스캔"}
+            </button>
           </section>
 
           <section className="relative overflow-hidden rounded-2xl border border-cyan-200/25 bg-slate-950 p-4 shadow-[0_30px_100px_rgba(8,145,178,0.24)] sm:rounded-[28px] sm:p-6">
@@ -118,14 +194,58 @@ export default function ScanPage() {
             <div className="relative space-y-4 sm:space-y-5">
               <div className="flex items-center justify-between gap-2 text-[10px] font-semibold text-cyan-100 sm:text-xs">
                 <span className="rounded-full border border-cyan-200/30 bg-black/40 px-3 py-2 backdrop-blur sm:px-4">
-                  CAMERA FRAME · READY
+                  CAMERA FRAME · {isCameraReady ? "LIVE" : "READY"}
                 </span>
                 <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-slate-200 backdrop-blur sm:px-4">
-                  No Device Connected
+                  {isCameraReady ? "Camera Preview" : "Fallback View"}
                 </span>
               </div>
 
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-cyan-200/30 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.12),transparent_30%),linear-gradient(135deg,#020617,#0f172a_52%,#020617)] shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_34px_rgba(34,211,238,0.16)] sm:aspect-[16/7]">
+              <div
+                className={`relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-cyan-200/30 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.12),transparent_30%),linear-gradient(135deg,#020617,#0f172a_52%,#020617)] shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_34px_rgba(34,211,238,0.16)] sm:aspect-[16/7] ${
+                  isScanning
+                    ? "animate-pulse border-cyan-200 shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_44px_rgba(34,211,238,0.42)]"
+                    : ""
+                }`}
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                  className={`absolute inset-0 h-full w-full object-cover ${
+                    isCameraReady ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {!isCameraReady && (
+                  <div className="absolute left-1/2 top-1/2 w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-cyan-200/25 bg-black/35 px-4 py-5 text-center backdrop-blur-sm sm:w-auto sm:px-8">
+                    <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
+                      AR/HUD SCAN AREA
+                    </p>
+                    <p className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                      카메라 준비 영역
+                    </p>
+                    <p className="mt-2 text-xs leading-5 text-slate-400 sm:text-sm">
+                      카메라 권한을 허용하면 이 영역에 미리보기가 표시됩니다.
+                    </p>
+                  </div>
+                )}
+
+                {isScanning && (
+                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-cyan-950/25 backdrop-blur-[1px]">
+                    <div className="absolute left-6 right-6 top-1/2 h-0.5 bg-cyan-200 shadow-[0_0_22px_rgba(34,211,238,0.95)]" />
+                    <div className="rounded-2xl border border-cyan-200/45 bg-black/55 px-6 py-4 text-center shadow-[0_0_34px_rgba(34,211,238,0.28)]">
+                      <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
+                        OCR DEMO MODE
+                      </p>
+                      <p className="mt-2 text-xl font-bold text-white">
+                        Raw Data 분석 중...
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.08)_1px,transparent_1px)] bg-[size:100%_18px]" />
                 <div className="absolute inset-x-8 top-1/2 h-px bg-cyan-200/30" />
                 <div className="absolute inset-y-6 left-1/2 w-px bg-cyan-200/30" />
@@ -135,18 +255,6 @@ export default function ScanPage() {
                 <div className="absolute right-4 top-4 h-10 w-10 border-r-2 border-t-2 border-cyan-200 sm:h-14 sm:w-14" />
                 <div className="absolute bottom-4 left-4 h-10 w-10 border-b-2 border-l-2 border-cyan-200 sm:h-14 sm:w-14" />
                 <div className="absolute bottom-4 right-4 h-10 w-10 border-b-2 border-r-2 border-cyan-200 sm:h-14 sm:w-14" />
-
-                <div className="absolute left-1/2 top-1/2 w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-cyan-200/25 bg-black/35 px-4 py-5 text-center backdrop-blur-sm sm:w-auto sm:px-8">
-                  <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
-                    AR/HUD SCAN AREA
-                  </p>
-                  <p className="mt-2 text-xl font-bold text-white sm:text-2xl">
-                    카메라 준비 영역
-                  </p>
-                  <p className="mt-2 text-xs leading-5 text-slate-400 sm:text-sm">
-                    실제 카메라 연결 전 표시되는 정적 프레임입니다.
-                  </p>
-                </div>
               </div>
 
               <div className="rounded-xl border border-cyan-200/25 bg-black/42 p-3 backdrop-blur-sm sm:rounded-2xl sm:p-4">

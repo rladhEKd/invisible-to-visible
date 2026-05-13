@@ -99,9 +99,9 @@ export default function ScanPage() {
               현장 Raw Data를 촬영합니다
             </h1>
             <p className="text-sm leading-7 text-slate-300 md:text-base md:leading-8">
-              카메라 프레임 안에는 사람이 한눈에 판단하기 어려운 설비 데이터가
-              표시됩니다. 복잡한 수치 속에 숨어 있는 이상 징후를 다음 단계에서
-              AI가 분석합니다.
+              실제 카메라 연동 전 단계입니다. 상단의 카메라 준비 영역에서
+              촬영 프레임을 확인하고, 아래 Raw Data 표를 스캔 대상으로
+              보여줍니다.
             </p>
             <Link
               href="/analyzing"
@@ -111,82 +111,104 @@ export default function ScanPage() {
             </Link>
           </section>
 
-          <section className="relative min-h-[520px] overflow-hidden rounded-2xl border border-cyan-200/25 bg-slate-950 shadow-[0_30px_100px_rgba(8,145,178,0.24)] sm:min-h-[620px] sm:rounded-[28px]">
+          <section className="relative overflow-hidden rounded-2xl border border-cyan-200/25 bg-slate-950 p-4 shadow-[0_30px_100px_rgba(8,145,178,0.24)] sm:rounded-[28px] sm:p-6">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.08)_1px,transparent_1px)] bg-[size:40px_40px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(34,211,238,0.16),transparent_24%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.72))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(34,211,238,0.16),transparent_25%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.72))]" />
 
-            <div className="absolute left-4 right-4 top-4 z-10 flex items-center justify-between gap-2 text-[10px] font-semibold text-cyan-100 sm:left-6 sm:right-6 sm:top-6 sm:text-xs">
-              <span className="rounded-full border border-cyan-200/30 bg-black/40 px-3 py-2 backdrop-blur sm:px-4">
-                CAMERA FRAME · REPORT-042
-              </span>
-              <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-slate-200 backdrop-blur sm:px-4">
-                Raw Data Preview
-              </span>
-            </div>
-
-            <div className="absolute inset-4 top-16 rounded-xl border border-cyan-200/25 bg-black/42 p-3 backdrop-blur-sm sm:inset-10 sm:top-20 sm:rounded-2xl sm:p-4">
-              <div className="mb-3 flex flex-col gap-2 border-b border-white/10 pb-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-[10px] font-bold text-cyan-300 sm:text-xs">
-                    SHIPYARD EQUIPMENT RAW LOG
-                  </p>
-                  <h2 className="mt-1 text-lg font-bold text-white sm:text-2xl">
-                    사람이 보기 어려운 복잡한 Raw Data
-                  </h2>
-                </div>
-                <p className="text-[10px] text-slate-400 sm:text-xs">Captured Area 92%</p>
+            <div className="relative space-y-4 sm:space-y-5">
+              <div className="flex items-center justify-between gap-2 text-[10px] font-semibold text-cyan-100 sm:text-xs">
+                <span className="rounded-full border border-cyan-200/30 bg-black/40 px-3 py-2 backdrop-blur sm:px-4">
+                  CAMERA FRAME · READY
+                </span>
+                <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-slate-200 backdrop-blur sm:px-4">
+                  No Device Connected
+                </span>
               </div>
 
-              <div className="overflow-hidden border border-white/10 bg-slate-950/65 shadow-[inset_0_0_28px_rgba(8,145,178,0.12)]">
-                <div className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] bg-cyan-300/15 text-[8px] font-bold text-cyan-100 sm:text-[11px]">
-                  {columns.map((heading) => (
-                    <div
-                      key={heading}
-                      className="min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2"
-                    >
-                      {heading}
-                    </div>
-                  ))}
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-cyan-200/30 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.12),transparent_30%),linear-gradient(135deg,#020617,#0f172a_52%,#020617)] shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_34px_rgba(34,211,238,0.16)] sm:aspect-[16/7]">
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.08)_1px,transparent_1px)] bg-[size:100%_18px]" />
+                <div className="absolute inset-x-8 top-1/2 h-px bg-cyan-200/30" />
+                <div className="absolute inset-y-6 left-1/2 w-px bg-cyan-200/30" />
+
+                <div className="absolute inset-4 border border-cyan-200/25" />
+                <div className="absolute left-4 top-4 h-10 w-10 border-l-2 border-t-2 border-cyan-200 sm:h-14 sm:w-14" />
+                <div className="absolute right-4 top-4 h-10 w-10 border-r-2 border-t-2 border-cyan-200 sm:h-14 sm:w-14" />
+                <div className="absolute bottom-4 left-4 h-10 w-10 border-b-2 border-l-2 border-cyan-200 sm:h-14 sm:w-14" />
+                <div className="absolute bottom-4 right-4 h-10 w-10 border-b-2 border-r-2 border-cyan-200 sm:h-14 sm:w-14" />
+
+                <div className="absolute left-1/2 top-1/2 w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-cyan-200/25 bg-black/35 px-4 py-5 text-center backdrop-blur-sm sm:w-auto sm:px-8">
+                  <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
+                    AR/HUD SCAN AREA
+                  </p>
+                  <p className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                    카메라 준비 영역
+                  </p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400 sm:text-sm">
+                    실제 카메라 연결 전 표시되는 정적 프레임입니다.
+                  </p>
                 </div>
-                {rows.map((row, rowIndex) => (
-                  <div
-                    key={row.join("-")}
-                    className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] border-t border-white/10 text-[8px] leading-3 sm:text-[11px] sm:leading-4"
-                  >
-                    {row.map((cell, cellIndex) => (
+              </div>
+
+              <div className="rounded-xl border border-cyan-200/25 bg-black/42 p-3 backdrop-blur-sm sm:rounded-2xl sm:p-4">
+                <div className="mb-3 flex flex-col gap-2 border-b border-white/10 pb-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold text-cyan-300 sm:text-xs">
+                      SHIPYARD EQUIPMENT RAW LOG
+                    </p>
+                    <h2 className="mt-1 text-lg font-bold text-white sm:text-2xl">
+                      사람이 보기 어려운 복잡한 Raw Data
+                    </h2>
+                  </div>
+                  <p className="text-[10px] text-slate-400 sm:text-xs">
+                    Captured Area 92%
+                  </p>
+                </div>
+
+                <div className="overflow-hidden border border-white/10 bg-slate-950/65 shadow-[inset_0_0_28px_rgba(8,145,178,0.12)]">
+                  <div className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] bg-cyan-300/15 text-[8px] font-bold text-cyan-100 sm:text-[11px]">
+                    {columns.map((heading) => (
                       <div
-                        key={`${rowIndex}-${cell}`}
-                        className={`min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2 ${
-                          cellIndex === 0
-                            ? "font-semibold text-slate-100"
-                            : getCellClass(cell)
-                        }`}
+                        key={heading}
+                        className="min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2"
                       >
-                        {cell}
+                        {heading}
                       </div>
                     ))}
                   </div>
-                ))}
-              </div>
+                  {rows.map((row, rowIndex) => (
+                    <div
+                      key={row.join("-")}
+                      className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] border-t border-white/10 text-[8px] leading-3 sm:text-[11px] sm:leading-4"
+                    >
+                      {row.map((cell, cellIndex) => (
+                        <div
+                          key={`${rowIndex}-${cell}`}
+                          className={`min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2 ${
+                            cellIndex === 0
+                              ? "font-semibold text-slate-100"
+                              : getCellClass(cell)
+                          }`}
+                        >
+                          {cell}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
 
-              <div className="mt-3 grid grid-cols-1 gap-2 text-[10px] text-slate-300 sm:grid-cols-3 sm:text-[11px]">
-                <div className="border border-white/10 bg-white/[0.04] px-2 py-2 sm:px-3">
-                  스캔 행 수: 18
-                </div>
-                <div className="border border-yellow-300/20 bg-yellow-300/10 px-2 py-2 text-yellow-100 sm:px-3">
-                  주의 후보: 10
-                </div>
-                <div className="border border-red-300/25 bg-red-400/10 px-2 py-2 text-red-100 sm:px-3">
-                  위험 후보: 16
+                <div className="mt-3 grid grid-cols-1 gap-2 text-[10px] text-slate-300 sm:grid-cols-3 sm:text-[11px]">
+                  <div className="border border-white/10 bg-white/[0.04] px-2 py-2 sm:px-3">
+                    스캔 행 수: 18
+                  </div>
+                  <div className="border border-yellow-300/20 bg-yellow-300/10 px-2 py-2 text-yellow-100 sm:px-3">
+                    주의 후보: 10
+                  </div>
+                  <div className="border border-red-300/25 bg-red-400/10 px-2 py-2 text-red-100 sm:px-3">
+                    위험 후보: 16
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="absolute inset-4 border border-cyan-200/35 sm:inset-6" />
-            <div className="absolute left-4 top-4 h-8 w-8 border-l-2 border-t-2 border-cyan-200 sm:left-6 sm:top-6 sm:h-12 sm:w-12" />
-            <div className="absolute right-4 top-4 h-8 w-8 border-r-2 border-t-2 border-cyan-200 sm:right-6 sm:top-6 sm:h-12 sm:w-12" />
-            <div className="absolute bottom-4 left-4 h-8 w-8 border-b-2 border-l-2 border-cyan-200 sm:bottom-6 sm:left-6 sm:h-12 sm:w-12" />
-            <div className="absolute bottom-4 right-4 h-8 w-8 border-b-2 border-r-2 border-cyan-200 sm:bottom-6 sm:right-6 sm:h-12 sm:w-12" />
           </section>
         </div>
       </section>

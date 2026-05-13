@@ -152,57 +152,57 @@ export default function ScanPage() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
+    <main className="min-h-dvh overflow-hidden bg-[#050816] text-white lg:min-h-screen">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_15%,rgba(34,211,238,0.16),transparent_28%),linear-gradient(135deg,#050816_0%,#071a2e_58%,#020617_100%)]" />
 
-      <section className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-5 px-4 py-5 sm:gap-7 sm:px-6 sm:py-8 lg:px-10">
-        <header className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="text-sm font-semibold text-cyan-300">
+      <section className="mx-auto flex h-dvh w-full max-w-7xl flex-col gap-2 px-3 py-2 sm:gap-4 sm:px-5 sm:py-4 lg:min-h-screen lg:gap-7 lg:px-10 lg:py-8">
+        <header className="flex flex-row items-center justify-between gap-2">
+          <Link href="/" className="text-xs font-semibold text-cyan-300 sm:text-sm">
             Invisible to Visible
           </Link>
-          <p className="rounded-full border border-cyan-200/25 bg-cyan-300/10 px-4 py-2 text-xs font-semibold text-cyan-100">
+          <p className="rounded-full border border-cyan-200/25 bg-cyan-300/10 px-3 py-1.5 text-[10px] font-semibold text-cyan-100 sm:px-4 sm:py-2 sm:text-xs">
             STEP 01 데이터 촬영
           </p>
         </header>
 
-        <div className="grid flex-1 items-center gap-6 md:gap-8 lg:grid-cols-[0.7fr_1.3fr]">
-          <section className="space-y-4 md:space-y-5">
-            <p className="text-xs font-bold tracking-[0.2em] text-cyan-300 sm:text-sm sm:tracking-[0.24em]">
+        <div className="grid min-h-0 flex-1 items-stretch gap-3 landscape:grid-cols-[1.2fr_0.8fr] md:gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+          <section className="order-2 flex min-h-0 flex-col justify-center space-y-2 landscape:order-2 lg:order-1 lg:space-y-5">
+            <p className="text-[10px] font-bold tracking-[0.18em] text-cyan-300 sm:text-xs lg:text-sm lg:tracking-[0.24em]">
               CAMERA SCAN
             </p>
-            <h1 className="text-3xl font-bold leading-tight md:text-5xl">
+            <h1 className="text-xl font-bold leading-tight sm:text-2xl md:text-3xl lg:text-5xl">
               현장 Raw Data를 촬영합니다
             </h1>
-            <p className="text-sm leading-7 text-slate-300 md:text-base md:leading-8">
-              모바일에서는 후면 카메라를 우선 사용합니다. 권한이 거부되거나
-              카메라가 지원되지 않는 환경에서는 준비 화면을 그대로 표시합니다.
+            <p className="max-w-md text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6 lg:text-base lg:leading-8">
+              카메라 프레임으로 현장 데이터를 확인하고, 미리 정의된 Raw Data를
+              시연용 분석 흐름으로 넘깁니다.
             </p>
             <button
               type="button"
               onClick={handleScan}
               disabled={isScanning}
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-300 px-7 py-3 text-base font-bold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.32)] transition hover:bg-cyan-200 disabled:cursor-wait disabled:bg-cyan-200 sm:w-auto sm:py-4"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-cyan-300 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.32)] transition hover:bg-cyan-200 disabled:cursor-wait disabled:bg-cyan-200 sm:w-auto lg:min-h-12 lg:px-7 lg:py-4 lg:text-base"
             >
-              {isScanning ? "Raw Data 분석 준비 중..." : "Raw Data 스캔"}
+              {isScanning ? "Raw Data 분석 중..." : "스캔 시작"}
             </button>
           </section>
 
-          <section className="relative overflow-hidden rounded-2xl border border-cyan-200/25 bg-slate-950 p-4 shadow-[0_30px_100px_rgba(8,145,178,0.24)] sm:rounded-[28px] sm:p-6">
+          <section className="order-1 relative min-h-0 overflow-hidden rounded-2xl border border-cyan-200/25 bg-slate-950 p-2 shadow-[0_30px_100px_rgba(8,145,178,0.24)] landscape:order-1 sm:p-4 lg:order-2 lg:rounded-[28px] lg:p-6">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.08)_1px,transparent_1px)] bg-[size:40px_40px]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,rgba(34,211,238,0.16),transparent_25%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.72))]" />
 
-            <div className="relative space-y-4 sm:space-y-5">
-              <div className="flex items-center justify-between gap-2 text-[10px] font-semibold text-cyan-100 sm:text-xs">
-                <span className="rounded-full border border-cyan-200/30 bg-black/40 px-3 py-2 backdrop-blur sm:px-4">
+            <div className="relative space-y-2 sm:space-y-3 lg:space-y-5">
+              <div className="flex items-center justify-between gap-2 text-[9px] font-semibold text-cyan-100 sm:text-[10px] lg:text-xs">
+                <span className="rounded-full border border-cyan-200/30 bg-black/40 px-2 py-1.5 backdrop-blur lg:px-4 lg:py-2">
                   CAMERA FRAME · {isCameraReady ? "LIVE" : "READY"}
                 </span>
-                <span className="rounded-full border border-white/15 bg-black/40 px-3 py-2 text-slate-200 backdrop-blur sm:px-4">
+                <span className="rounded-full border border-white/15 bg-black/40 px-2 py-1.5 text-slate-200 backdrop-blur lg:px-4 lg:py-2">
                   {isCameraReady ? "Camera Preview" : "Fallback View"}
                 </span>
               </div>
 
               <div
-                className={`relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-cyan-200/30 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.12),transparent_30%),linear-gradient(135deg,#020617,#0f172a_52%,#020617)] shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_34px_rgba(34,211,238,0.16)] sm:aspect-[16/7] ${
+                className={`relative h-[42vh] max-h-[260px] min-h-[145px] w-full overflow-hidden rounded-xl border border-cyan-200/30 bg-[radial-gradient(circle_at_50%_45%,rgba(34,211,238,0.12),transparent_30%),linear-gradient(135deg,#020617,#0f172a_52%,#020617)] shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_34px_rgba(34,211,238,0.16)] sm:rounded-2xl lg:aspect-[16/7] lg:h-auto lg:max-h-none ${
                   isScanning
                     ? "animate-pulse border-cyan-200 shadow-[inset_0_0_50px_rgba(0,0,0,0.8),0_0_44px_rgba(34,211,238,0.42)]"
                     : ""
@@ -219,15 +219,15 @@ export default function ScanPage() {
                 />
 
                 {!isCameraReady && (
-                  <div className="absolute left-1/2 top-1/2 w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-cyan-200/25 bg-black/35 px-4 py-5 text-center backdrop-blur-sm sm:w-auto sm:px-8">
-                    <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
+                  <div className="absolute left-1/2 top-1/2 w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-cyan-200/25 bg-black/35 px-3 py-3 text-center backdrop-blur-sm sm:w-auto lg:px-8 lg:py-5">
+                    <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-300 lg:text-xs">
                       AR/HUD SCAN AREA
                     </p>
-                    <p className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                    <p className="mt-1 text-base font-bold text-white lg:mt-2 lg:text-2xl">
                       카메라 준비 영역
                     </p>
-                    <p className="mt-2 text-xs leading-5 text-slate-400 sm:text-sm">
-                      카메라 권한을 허용하면 이 영역에 미리보기가 표시됩니다.
+                    <p className="mt-1 text-[10px] leading-4 text-slate-400 lg:mt-2 lg:text-sm lg:leading-5">
+                      권한을 허용하면 미리보기가 표시됩니다.
                     </p>
                   </div>
                 )}
@@ -235,11 +235,11 @@ export default function ScanPage() {
                 {isScanning && (
                   <div className="absolute inset-0 z-20 flex items-center justify-center bg-cyan-950/25 backdrop-blur-[1px]">
                     <div className="absolute left-6 right-6 top-1/2 h-0.5 bg-cyan-200 shadow-[0_0_22px_rgba(34,211,238,0.95)]" />
-                    <div className="rounded-2xl border border-cyan-200/45 bg-black/55 px-6 py-4 text-center shadow-[0_0_34px_rgba(34,211,238,0.28)]">
-                      <p className="text-xs font-bold tracking-[0.22em] text-cyan-300">
+                    <div className="rounded-2xl border border-cyan-200/45 bg-black/55 px-4 py-3 text-center shadow-[0_0_34px_rgba(34,211,238,0.28)] lg:px-6 lg:py-4">
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-300 lg:text-xs">
                         OCR DEMO MODE
                       </p>
-                      <p className="mt-2 text-xl font-bold text-white">
+                      <p className="mt-1 text-lg font-bold text-white lg:mt-2 lg:text-xl">
                         Raw Data 분석 중...
                       </p>
                     </div>
@@ -257,27 +257,27 @@ export default function ScanPage() {
                 <div className="absolute bottom-4 right-4 h-10 w-10 border-b-2 border-r-2 border-cyan-200 sm:h-14 sm:w-14" />
               </div>
 
-              <div className="rounded-xl border border-cyan-200/25 bg-black/42 p-3 backdrop-blur-sm sm:rounded-2xl sm:p-4">
-                <div className="mb-3 flex flex-col gap-2 border-b border-white/10 pb-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="max-h-[25vh] overflow-hidden rounded-xl border border-cyan-200/25 bg-black/42 p-2 backdrop-blur-sm sm:max-h-[28vh] lg:max-h-none lg:rounded-2xl lg:p-4">
+                <div className="mb-2 flex items-center justify-between gap-2 border-b border-white/10 pb-2 lg:mb-4 lg:pb-3">
                   <div>
-                    <p className="text-[10px] font-bold text-cyan-300 sm:text-xs">
+                    <p className="text-[9px] font-bold text-cyan-300 lg:text-xs">
                       SHIPYARD EQUIPMENT RAW LOG
                     </p>
-                    <h2 className="mt-1 text-lg font-bold text-white sm:text-2xl">
-                      사람이 보기 어려운 복잡한 Raw Data
+                    <h2 className="mt-0.5 text-sm font-bold text-white lg:mt-1 lg:text-2xl">
+                      복잡한 Raw Data
                     </h2>
                   </div>
-                  <p className="text-[10px] text-slate-400 sm:text-xs">
+                  <p className="text-[9px] text-slate-400 lg:text-xs">
                     Captured Area 92%
                   </p>
                 </div>
 
-                <div className="overflow-hidden border border-white/10 bg-slate-950/65 shadow-[inset_0_0_28px_rgba(8,145,178,0.12)]">
-                  <div className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] bg-cyan-300/15 text-[8px] font-bold text-cyan-100 sm:text-[11px]">
+                <div className="max-h-[88px] overflow-hidden border border-white/10 bg-slate-950/65 shadow-[inset_0_0_28px_rgba(8,145,178,0.12)] sm:max-h-[104px] lg:max-h-none">
+                  <div className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] bg-cyan-300/15 text-[7px] font-bold text-cyan-100 sm:text-[8px] lg:text-[11px]">
                     {columns.map((heading) => (
                       <div
                         key={heading}
-                        className="min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2"
+                        className="min-w-0 break-words border-r border-white/10 px-1 py-1 last:border-r-0 lg:px-2 lg:py-2"
                       >
                         {heading}
                       </div>
@@ -286,12 +286,12 @@ export default function ScanPage() {
                   {rows.map((row, rowIndex) => (
                     <div
                       key={row.join("-")}
-                      className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] border-t border-white/10 text-[8px] leading-3 sm:text-[11px] sm:leading-4"
+                      className="grid grid-cols-[1.05fr_0.82fr_0.9fr_0.85fr_0.82fr_0.9fr_1.05fr] border-t border-white/10 text-[7px] leading-3 sm:text-[8px] lg:text-[11px] lg:leading-4"
                     >
                       {row.map((cell, cellIndex) => (
                         <div
                           key={`${rowIndex}-${cell}`}
-                          className={`min-w-0 break-words border-r border-white/10 px-1 py-1.5 last:border-r-0 sm:px-2 sm:py-2 ${
+                          className={`min-w-0 break-words border-r border-white/10 px-1 py-1 last:border-r-0 lg:px-2 lg:py-2 ${
                             cellIndex === 0
                               ? "font-semibold text-slate-100"
                               : getCellClass(cell)
@@ -304,14 +304,14 @@ export default function ScanPage() {
                   ))}
                 </div>
 
-                <div className="mt-3 grid grid-cols-1 gap-2 text-[10px] text-slate-300 sm:grid-cols-3 sm:text-[11px]">
-                  <div className="border border-white/10 bg-white/[0.04] px-2 py-2 sm:px-3">
+                <div className="mt-2 hidden grid-cols-3 gap-2 text-[10px] text-slate-300 sm:grid lg:mt-3 lg:text-[11px]">
+                  <div className="border border-white/10 bg-white/[0.04] px-2 py-1.5 lg:px-3 lg:py-2">
                     스캔 행 수: 18
                   </div>
-                  <div className="border border-yellow-300/20 bg-yellow-300/10 px-2 py-2 text-yellow-100 sm:px-3">
+                  <div className="border border-yellow-300/20 bg-yellow-300/10 px-2 py-1.5 text-yellow-100 lg:px-3 lg:py-2">
                     주의 후보: 10
                   </div>
-                  <div className="border border-red-300/25 bg-red-400/10 px-2 py-2 text-red-100 sm:px-3">
+                  <div className="border border-red-300/25 bg-red-400/10 px-2 py-1.5 text-red-100 lg:px-3 lg:py-2">
                     위험 후보: 16
                   </div>
                 </div>
